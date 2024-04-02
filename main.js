@@ -3,7 +3,28 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+document.addEventListener("DOMContentLoaded", () => {
+  const errorModal = document.querySelector("#modal");
+  const likeButtons = document.querySelectorAll(".like-glyph");
 
+  likeButtons.forEach(likeButton => {
+    likeButton.addEventListener("click", () => {
+      mimicServerCall()
+        .then(() => {
+          likeButton.classList.toggle("activated-heart");
+          likeButton.classList.toggle("like-glyph-active");
+        })
+        .catch(() => {
+          errorModal.classList.remove("hidden");
+          const errorMessage = document.querySelector("#modal-message");
+          errorMessage.textContent = "Server Error. Please try again later.";
+          setTimeout(() => {
+            errorModal.classList.add("hidden");
+          }, 3000);
+        });
+    });
+  });
+});
 
 
 
